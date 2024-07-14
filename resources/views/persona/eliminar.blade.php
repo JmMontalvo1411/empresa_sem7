@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mt-4">Actualizar Personas</h1>
+    <h1 class="mt-4">Eliminar Personas</h1>
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Buscar persona..." id="searchInput">
     </div>
@@ -32,13 +32,42 @@
                     <td>{{ $persona->nPerSueldo }}</td>
                     <td>{{ $persona->nPerEstado ? 'Activo' : 'Inactivo' }}</td>
                     <td>
-                        <a href="{{ route('persona.edit', $persona->id) }}" class="btn btn-sm btn-warning">Editar</a>
+                        <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deletePersonaModal{{ $persona->id }}">
+                            Eliminar
+                        </button>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+
+@foreach($personas as $persona)
+    <!-- Modal Eliminar Persona -->
+    <div class="modal fade" id="deletePersonaModal{{ $persona->id }}" tabindex="-1" role="dialog" aria-labelledby="deletePersonaModalLabel{{ $persona->id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deletePersonaModalLabel{{ $persona->id }}">Confirmar eliminación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro que deseas eliminar a {{ $persona->cPerNombre }} {{ $persona->cPerApellido }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <form action="{{ route('persona.destroy', $persona->id) }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
 
 <script>
     document.getElementById('searchInput').addEventListener('keyup', function() {

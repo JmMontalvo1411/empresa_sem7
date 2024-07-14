@@ -12,3 +12,4 @@ Route::get('/personas', [PersonaController::class, 'index'])->name('personas.ind
 Route::get('/persona/{id}/edit', [PersonaController::class, 'edit'])->name('persona.edit');
 Route::put('/persona/{id}', [PersonaController::class, 'update'])->name('persona.update');
 Route::get('/personas/actualizar', [PersonaController::class, 'updateList'])->name('personas.updateList');
+Route::get('/eliminar-personas', [PersonaController::class, 'eliminarPersonas'])->name('eliminar.personas');

@@ -44,4 +44,17 @@ class PersonaController extends Controller
         $personas = Persona::all();
         return view('persona.updateList', compact('personas'));
     }
+    public function eliminarPersonas()
+    {
+        $personas = Persona::all();
+        return view('persona.eliminar', compact('personas'));
+    }
+    public function destroy($id)
+    {
+        $persona = Persona::findOrFail($id);
+        $persona->delete();
+
+        return redirect()->route('personas.index')->with('success', 'Persona eliminada exitosamente');
+    }
+
 }
